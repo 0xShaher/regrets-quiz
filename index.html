@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار فهم المقروء - قطعة Regrets</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .header-section {
+            background: #34495e;
+            color: #ecf0f1;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header-section h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .header-section p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .developer-credit {
+            position: absolute;
+            bottom: 8px;
+            right: 15px;
+            font-size: 12px;
+            opacity: 0.7;
+            font-style: italic;
+        }
+        
+        .navigation-tabs {
+            display: flex;
+            background: #ecf0f1;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        
+        .tab-button {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-button:hover {
+            background: #d5dbdb;
+            color: #2c3e50;
+        }
+        
+        .tab-button.active {
+            background: #ffffff;
+            color: #2c3e50;
+            border-bottom-color: #3498db;
+            font-weight: 600;
+        }
+        
+        .content-section {
+            display: none;
+            padding: 25px 30px;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .reading-passage {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            font-size: 15px;
+            line-height: 1.7;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Georgia', serif;
+        }
+        
+        .reading-passage strong {
+            color: #2c3e50;
+            font-size: 16px;
+        }
+        
+        .quiz-question {
+            margin-bottom: 25px;
+            padding: 18px;
+            background: #fdfdfd;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .quiz-question:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+        }
+        
+        .question-title {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .answer-choices {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .choice-item {
+            padding: 10px 14px;
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .choice-item:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+        
+        .choice-item input[type="radio"] {
+            margin-left: 8px;
+            margin-right: 0;
+        }
+        
+        .choice-item.correct-answer {
+            background: #d5f4e6 !important;
+            border-color: #27ae60 !important;
+            color: #1e8449 !important;
+        }
+        
+        .choice-item.wrong-answer {
+            background: #fadbd8 !important;
+            border-color: #e74c3c !important;
+            color: #c0392b !important;
+        }
+        
+        .answer-key-item {
+            margin-bottom: 18px;
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border-left: 3px solid #27ae60;
+        }
+        
+        .answer-key-item h4 {
+            color: #2c3e50;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .correct-answer-text {
+            color: #27ae60;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .action-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: block;
+            margin: 25px auto;
+            font-weight: 500;
+        }
+        
+        .action-button:hover {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+        
+        .secondary-button {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 8px auto;
+            display: block;
+        }
+        
+        .secondary-button:hover {
+            background: #7f8c8d;
+        }
+        
+        .result-display {
+            text-align: center;
+            padding: 20px;
+            background: #3498db;
+            color: white;
+            border-radius: 6px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .result-display h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        .score-display {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .randomize-button {
+            background: #8e44ad;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 8px auto;
+            display: block;
+        }
+        
+        .randomize-button:hover {
+            background: #7d3c98;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header-section">
+            <h1>اختبار فهم المقروء</h1>
+            <p>قطعة Regrets - 20 سؤال اختيار من متعدد</p>
+            <div class="developer-credit">Shaher developer</div>
+        </div>
+        
+        <div class="navigation-tabs">
+            <button class="tab-button active" onclick="switchTab('quiz-section')">الاختبار</button>
+            <button class="tab-button" onclick="switchTab('answers-section')">نموذج الإجابة</button>
+        </div>
+        
+        <!-- قسم الاختبار -->
+        <div id="quiz-section" class="content-section active">
+            <div class="reading-passage">
+                <strong>اقرأ النص التالي ثم أجب عن الأسئلة:</strong><br><br>
+                My name's Jack and I want to tell you about something I regret. It happened over twenty years ago. I must have been around five years old. It was a summer day and I was in a park playing with some other kids from the neighborhood. There was a boy there named Jeremy who I didn't like very much, but I can't remember why. Anyway, we were playing near a pond. The water was very dirty and it was full of weeds and slime. You can guess what I did, right…? I waited until he was standing near the edge of the pond, and then I crept up behind him and gave him a good hard push in the back. He went flying straight into the filthy, slimy water! His dad rushed over and pulled him out. Jeremy was crying and pointed at me, saying "It was him. He pushed me!" Of course, I denied it. My parents were there, but I insisted I was innocent and without any proof they took my side. The bad thing is that Jeremy's parents and mine used to be good friends, but after that they never spoke to each other again. I should have told my parents the truth, but I didn't. To this day, I still regret pushing that boy into the pond.
+            </div>
+            
+            <button class="randomize-button" onclick="randomizeChoices()">🔄 ترتيب عشوائي للخيارات</button>
+            
+            <form id="testForm">
+                <div class="quiz-question">
+                    <h3 class="question-title">1. What is the narrator's name?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q1" value="a"> Jack</label>
+                        <label class="choice-item"><input type="radio" name="q1" value="b"> Jeremy</label>
+                        <label class="choice-item"><input type="radio" name="q1" value="c"> John</label>
+                        <label class="choice-item"><input type="radio" name="q1" value="d"> James</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">2. How long ago did this incident happen?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q2" value="a"> Over twenty years ago</label>
+                        <label class="choice-item"><input type="radio" name="q2" value="b"> Ten years ago</label>
+                        <label class="choice-item"><input type="radio" name="q2" value="c"> Five years ago</label>
+                        <label class="choice-item"><input type="radio" name="q2" value="d"> Fifteen years ago</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">3. How old was Jack when this happened?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q3" value="a"> Around five years old</label>
+                        <label class="choice-item"><input type="radio" name="q3" value="b"> Seven years old</label>
+                        <label class="choice-item"><input type="radio" name="q3" value="c"> Six years old</label>
+                        <label class="choice-item"><input type="radio" name="q3" value="d"> Four years old</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">4. What season was it when this happened?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q4" value="a"> Summer</label>
+                        <label class="choice-item"><input type="radio" name="q4" value="b"> Winter</label>
+                        <label class="choice-item"><input type="radio" name="q4" value="c"> Spring</label>
+                        <label class="choice-item"><input type="radio" name="q4" value="d"> Autumn</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">5. Where were they playing?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q5" value="a"> In a park</label>
+                        <label class="choice-item"><input type="radio" name="q5" value="b"> At school</label>
+                        <label class="choice-item"><input type="radio" name="q5" value="c"> At home</label>
+                        <label class="choice-item"><input type="radio" name="q5" value="d"> In the street</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">6. What was the name of the boy Jack pushed?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q6" value="a"> Jeremy</label>
+                        <label class="choice-item"><input type="radio" name="q6" value="b"> Jimmy</label>
+                        <label class="choice-item"><input type="radio" name="q6" value="c"> Jerry</label>
+                        <label class="choice-item"><input type="radio" name="q6" value="d"> Jake</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">7. How did Jack feel about Jeremy?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q7" value="a"> He didn't like him very much</label>
+                        <label class="choice-item"><input type="radio" name="q7" value="b"> He was his best friend</label>
+                        <label class="choice-item"><input type="radio" name="q7" value="c"> He loved him</label>
+                        <label class="choice-item"><input type="radio" name="q7" value="d"> He was neutral about him</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">8. What were they playing near?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q8" value="a"> A pond</label>
+                        <label class="choice-item"><input type="radio" name="q8" value="b"> A river</label>
+                        <label class="choice-item"><input type="radio" name="q8" value="c"> A swimming pool</label>
+                        <label class="choice-item"><input type="radio" name="q8" value="d"> A lake</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">9. How was the water described?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q9" value="a"> Very dirty and full of weeds and slime</label>
+                        <label class="choice-item"><input type="radio" name="q9" value="b"> Clean and clear</label>
+                        <label class="choice-item"><input type="radio" name="q9" value="c"> Warm and inviting</label>
+                        <label class="choice-item"><input type="radio" name="q9" value="d"> Cold but clean</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">10. What did Jack do to Jeremy?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q10" value="a"> Pushed him into the pond</label>
+                        <label class="choice-item"><input type="radio" name="q10" value="b"> Hit him</label>
+                        <label class="choice-item"><input type="radio" name="q10" value="c"> Shouted at him</label>
+                        <label class="choice-item"><input type="radio" name="q10" value="d"> Ignored him</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">11. How did Jack approach Jeremy before pushing him?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q11" value="a"> He crept up behind him</label>
+                        <label class="choice-item"><input type="radio" name="q11" value="b"> He ran towards him</label>
+                        <label class="choice-item"><input type="radio" name="q11" value="c"> He called his name first</label>
+                        <label class="choice-item"><input type="radio" name="q11" value="d"> He walked up to him normally</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">12. Who pulled Jeremy out of the water?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q12" value="a"> His dad</label>
+                        <label class="choice-item"><input type="radio" name="q12" value="b"> Jack</label>
+                        <label class="choice-item"><input type="radio" name="q12" value="c"> His mom</label>
+                        <label class="choice-item"><input type="radio" name="q12" value="d"> Another kid</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">13. What did Jeremy do after being pulled out?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q13" value="a"> He was crying and pointed at Jack</label>
+                        <label class="choice-item"><input type="radio" name="q13" value="b"> He laughed it off</label>
+                        <label class="choice-item"><input type="radio" name="q13" value="c"> He ran away</label>
+                        <label class="choice-item"><input type="radio" name="q13" value="d"> He said nothing</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">14. What did Jack do when Jeremy accused him?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q14" value="a"> He denied it</label>
+                        <label class="choice-item"><input type="radio" name="q14" value="b"> He confessed</label>
+                        <label class="choice-item"><input type="radio" name="q14" value="c"> He apologized</label>
+                        <label class="choice-item"><input type="radio" name="q14" value="d"> He ran away</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">15. Were Jack's parents present during the incident?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q15" value="a"> Yes, they were there</label>
+                        <label class="choice-item"><input type="radio" name="q15" value="b"> No, they were not there</label>
+                        <label class="choice-item"><input type="radio" name="q15" value="c"> Only his mother was there</label>
+                        <label class="choice-item"><input type="radio" name="q15" value="d"> Only his father was there</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">16. How did Jack's parents react to the accusation?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q16" value="a"> They took Jack's side without proof</label>
+                        <label class="choice-item"><input type="radio" name="q16" value="b"> They believed Jeremy immediately</label>
+                        <label class="choice-item"><input type="radio" name="q16" value="c"> They punished Jack</label>
+                        <label class="choice-item"><input type="radio" name="q16" value="d"> They investigated thoroughly</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">17. What was the relationship between the two families before the incident?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q17" value="a"> They used to be good friends</label>
+                        <label class="choice-item"><input type="radio" name="q17" value="b"> They barely knew each other</label>
+                        <label class="choice-item"><input type="radio" name="q17" value="c"> They were enemies</label>
+                        <label class="choice-item"><input type="radio" name="q17" value="d"> They were neighbors only</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">18. What happened to the relationship between the families after the incident?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q18" value="a"> They never spoke to each other again</label>
+                        <label class="choice-item"><input type="radio" name="q18" value="b"> They became closer</label>
+                        <label class="choice-item"><input type="radio" name="q18" value="c"> Nothing changed</label>
+                        <label class="choice-item"><input type="radio" name="q18" value="d"> They moved away</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">19. What does Jack think he should have done?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q19" value="a"> Told his parents the truth</label>
+                        <label class="choice-item"><input type="radio" name="q19" value="b"> Apologized to Jeremy publicly</label>
+                        <label class="choice-item"><input type="radio" name="q19" value="c"> Never played near the pond</label>
+                        <label class="choice-item"><input type="radio" name="q19" value="d"> Stayed home that day</label>
+                    </div>
+                </div>
+
+                <div class="quiz-question">
+                    <h3 class="question-title">20. How does Jack feel about his actions now?</h3>
+                    <div class="answer-choices">
+                        <label class="choice-item"><input type="radio" name="q20" value="a"> He still regrets what he did</label>
+                        <label class="choice-item"><input type="radio" name="q20" value="b"> He has forgotten about it</label>
+                        <label class="choice-item"><input type="radio" name="q20" value="c"> He thinks it was funny</label>
+                        <label class="choice-item"><input type="radio" name="q20" value="d"> He doesn't care anymore</label>
+                    </div>
+                </div>
+
+                <button type="button" class="action-button" onclick="evaluateTest()">تقييم الإجابات</button>
+            </form>
+
+            <div id="quiz-results" class="result-display">
+                <h2>نتيجة الاختبار</h2>
+                <div class="score-display" id="final-score"></div>
+                <p id="performance-message"></p>
+                <button class="secondary-button" onclick="restartTest()">اختبار جديد</button>
+            </div>
+        </div>
+        
+        <!-- قسم الإجابات -->
+        <div id="answers-section" class="content-section">
+            <h2 class="page-title">نموذج الإجابة الصحيحة</h2>
+            
+            <div class="answer-key-item">
+                <h4>1. What is the narrator's name?</h4>
+                <div class="correct-answer-text">✓ Jack</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>2. How long ago did this incident happen?</h4>
+                <div class="correct-answer-text">✓ Over twenty years ago</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>3. How old was Jack when this happened?</h4>
+                <div class="correct-answer-text">✓ Around five years old</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>4. What season was it when this happened?</h4>
+                <div class="correct-answer-text">✓ Summer</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>5. Where were they playing?</h4>
+                <div class="correct-answer-text">✓ In a park</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>6. What was the name of the boy Jack pushed?</h4>
+                <div class="correct-answer-text">✓ Jeremy</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>7. How did Jack feel about Jeremy?</h4>
+                <div class="correct-answer-text">✓ He didn't like him very much</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>8. What were they playing near?</h4>
+                <div class="correct-answer-text">✓ A pond</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>9. How was the water described?</h4>
+                <div class="correct-answer-text">✓ Very dirty and full of weeds and slime</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>10. What did Jack do to Jeremy?</h4>
+                <div class="correct-answer-text">✓ Pushed him into the pond</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>11. How did Jack approach Jeremy before pushing him?</h4>
+                <div class="correct-answer-text">✓ He crept up behind him</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>12. Who pulled Jeremy out of the water?</h4>
+                <div class="correct-answer-text">✓ His dad</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>13. What did Jeremy do after being pulled out?</h4>
+                <div class="correct-answer-text">✓ He was crying and pointed at Jack</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>14. What did Jack do when Jeremy accused him?</h4>
+                <div class="correct-answer-text">✓ He denied it</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>15. Were Jack's parents present during the incident?</h4>
+                <div class="correct-answer-text">✓ Yes, they were there</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>16. How did Jack's parents react to the accusation?</h4>
+                <div class="correct-answer-text">✓ They took Jack's side without proof</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>17. What was the relationship between the two families before the incident?</h4>
+                <div class="correct-answer-text">✓ They used to be good friends</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>18. What happened to the relationship between the families after the incident?</h4>
+                <div class="correct-answer-text">✓ They never spoke to each other again</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>19. What does Jack think he should have done?</h4>
+                <div class="correct-answer-text">✓ Told his parents the truth</div>
+            </div>
+            
+            <div class="answer-key-item">
+                <h4>20. How does Jack feel about his actions now?</h4>
+                <div class="correct-answer-text">✓ He still regrets what he did</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const answerKey = {
+            q1: 'a', q2: 'a', q3: 'a', q4: 'a', q5: 'a',
+            q6: 'a', q7: 'a', q8: 'a', q9: 'a', q10: 'a',
+            q11: 'a', q12: 'a', q13: 'a', q14: 'a', q15: 'a',
+            q16: 'a', q17: 'a', q18: 'a', q19: 'a', q20: 'a'
+        };
+
+        function switchTab(sectionId) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-button').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function shuffleChoices(choicesContainer) {
+            const choices = Array.from(choicesContainer.children);
+            const shuffledChoices = choices.sort(() => Math.random() - 0.5);
+            
+            choicesContainer.innerHTML = '';
+            shuffledChoices.forEach(choice => {
+                choicesContainer.appendChild(choice);
+            });
+        }
+
+        function randomizeChoices() {
+            const allChoiceContainers = document.querySelectorAll('.answer-choices');
+            allChoiceContainers.forEach(container => {
+                shuffleChoices(container);
+            });
+            
+            // Show feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ تم الترتيب العشوائي';
+            btn.style.background = '#27ae60';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#8e44ad';
+            }, 1200);
+        }
+
+        function evaluateTest() {
+            let correctAnswers = 0;
+            const totalQuestions = 20;
+            
+            // Reset all choice styles
+            document.querySelectorAll('.choice-item').forEach(choice => {
+                choice.classList.remove('correct-answer', 'wrong-answer');
+            });
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selectedChoice = document.querySelector(`input[name="q${i}"]:checked`);
+                const questionChoices = document.querySelectorAll(`input[name="q${i}"]`);
+                
+                questionChoices.forEach(choice => {
+                    const choiceLabel = choice.parentElement;
+                    if (choice.value === answerKey[`q${i}`]) {
+                        choiceLabel.classList.add('correct-answer');
+                    } else if (choice.checked) {
+                        choiceLabel.classList.add('wrong-answer');
+                    }
+                });
+
+                if (selectedChoice && selectedChoice.value === answerKey[`q${i}`]) {
+                    correctAnswers++;
+                }
+            }
+
+            // Calculate percentage
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            
+            // Display results
+            document.getElementById('final-score').textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            let performanceMessage = '';
+            if (percentage >= 95) {
+                performanceMessage = 'أداء استثنائي! تهانينا على هذا التفوق';
+            } else if (percentage >= 85) {
+                performanceMessage = 'أداء ممتاز! أحسنت في فهم النص';
+            } else if (percentage >= 75) {
+                performanceMessage = 'أداء جيد جداً! واصل التطور';
+            } else if (percentage >= 65) {
+                performanceMessage = 'أداء جيد! تحتاج لمراجعة بسيطة';
+            } else if (percentage >= 50) {
+                performanceMessage = 'أداء مقبول، راجع النص مرة أخرى';
+            } else {
+                performanceMessage = 'تحتاج للمزيد من التركيز والمراجعة';
+            }
+            
+            document.getElementById('performance-message').textContent = performanceMessage;
+            document.getElementById('quiz-results').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('quiz-results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function restartTest() {
+            // Clear all selections
+            document.querySelectorAll('input[type="radio"]').forEach(input => {
+                input.checked = false;
+            });
+            
+            // Reset all choice styles
+            document.querySelectorAll('.choice-item').forEach(choice => {
+                choice.classList.remove('correct-answer', 'wrong-answer');
+            });
+            
+            // Hide results
+            document.getElementById('quiz-results').style.display = 'none';
+            
+            // Randomize choices again
+            randomizeChoices();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize with random choices on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(randomizeChoices, 300);
+        });
+    </script>
+</body>
+</html>
